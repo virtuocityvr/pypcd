@@ -4,6 +4,26 @@
 .. image:: https://travis-ci.com/DanielPollithy/pypcd.svg?branch=master
     :target: https://travis-ci.com/DanielPollithy/pypcd
 
+Under construction
+------------------
+
+This is a fork of Daniel Maturanas module "pypcd". Due to its
+inactivity I am advancing this repository. The code was merged
+with the latest pull requests and I am working on the lost of open todos:
+
+ - [ ] Better API for various operations.
+ - [ ] Clean up, get rid of cruft.
+ - [ ] Add a cli for common use cases like file type conversion.
+ - [ ] Better support for structured point clouds, with tests.
+ - [ ] Better testing.
+ - [ ] Better docs. More examples.
+ - [ ] More testing of padding
+ - [ ] Improve handling of multicount fields
+ - [ ] Better support for rgb nonsense
+ - [ ] Export to ply?
+ - [x] Fix tox + travis
+
+
 What?
 -----
 

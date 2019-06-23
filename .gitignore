@@ -4,8 +4,6 @@ pypcd.egg-info
 build
 .eggs/
 dist
-_build
-dist
 bin
 lib
 include
