@@ -1,6 +1,9 @@
 ``pypcd``
 =========
 
+.. image:: https://travis-ci.com/DanielPollithy/pypcd.svg?branch=master
+    :target: https://travis-ci.com/DanielPollithy/pypcd
+
 What?
 -----
 
