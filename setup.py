@@ -44,4 +44,5 @@ setup(
     url='https://github.com/dimatura/pypcd',
     version='0.1.1',
     zip_safe=False,
+    data_files=[('config', ['HISTORY.rst'])]
 )
