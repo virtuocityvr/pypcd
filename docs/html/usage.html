@@ -37,6 +37,17 @@
 <h1>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h1>
 <p>To use pypcd in a project:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pypcd</span>
+
+<span class="c1"># also can read from file handles.</span>
+<span class="n">pc</span> <span class="o">=</span> <span class="n">pypcd</span><span class="o">.</span><span class="n">PointCloud</span><span class="o">.</span><span class="n">from_path</span><span class="p">(</span><span class="s1">&#39;foo.pcd&#39;</span><span class="p">)</span>
+<span class="c1"># pc.pc_data has the data as a structured array</span>
+<span class="c1"># pc.fields, pc.count, etc have the metadata</span>
+
+<span class="c1"># center the x field</span>
+<span class="n">pc</span><span class="o">.</span><span class="n">pc_data</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">]</span> <span class="o">-=</span> <span class="n">pc</span><span class="o">.</span><span class="n">pc_data</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+<span class="c1"># save as binary compressed</span>
+<span class="n">pc</span><span class="o">.</span><span class="n">save_pcd</span><span class="p">(</span><span class="s1">&#39;bar.pcd&#39;</span><span class="p">,</span> <span class="n">compression</span><span class="o">=</span><span class="s1">&#39;binary_compressed&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
