@@ -4,19 +4,25 @@
 .. image:: https://travis-ci.com/DanielPollithy/pypcd.svg?branch=master
     :target: https://travis-ci.com/DanielPollithy/pypcd
 
+.. image:: https://readthedocs.org/projects/pypcd-clone/badge/?version=latest
+    :target: https://pypcd-clone.readthedocs.io/en/latest/?badge=latest
+    :alt: Documentation Status
+
 Under construction
 ------------------
 
 This is a fork of Daniel Maturanas module "pypcd". Due to its
 inactivity I am advancing this repository. The code was merged
-with the latest pull requests and I am working on the lost of open todos:
+with the latest pull requests and I am working on the list of open todos:
 
+ - [ ] jupyter notebooks with examples
+ - [ ] benchmarking ascii, binary and binary compressed
  - [ ] Better API for various operations.
  - [ ] Clean up, get rid of cruft.
  - [ ] Add a cli for common use cases like file type conversion.
  - [ ] Better support for structured point clouds, with tests.
  - [ ] Better testing.
- - [ ] Better docs. More examples.
+ - [ ] Better docs.
  - [ ] More testing of padding
  - [ ] Improve handling of multicount fields
  - [ ] Better support for rgb nonsense
