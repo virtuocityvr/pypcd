@@ -12,10 +12,14 @@ dimatura@cmu.edu, 2013-2018
 import re
 import struct
 import copy
-from io import StringIO as sio
 import numpy as np
 import warnings
 import lzf
+
+try:
+    from StringIO import StringIO
+except ImportError:
+    from io import StringIO
 
 HAS_SENSOR_MSGS = True
 try:
@@ -307,7 +311,7 @@ def point_cloud_from_path(fname):
 
 
 def point_cloud_from_buffer(buf):
-    fileobj = sio.StringIO(buf)
+    fileobj = StringIO(buf)
     pc = point_cloud_from_fileobj(fileobj)
     fileobj.close()  # necessary?
     return pc
@@ -332,7 +336,7 @@ def point_cloud_to_fileobj(pc, fileobj, data_compression=None):
         fileobj.write(pc.pc_data.tostring())
     elif metadata['data'].lower() == 'binary_compressed':
         # TODO
-        # a '_' field is ignored by pcl and breakes compressed point clouds.
+        # a '_' field is ignored by pcl and breaks compressed point clouds.
         # changing '_' to '_padding' or other name fixes this.
         # admittedly padding shouldn't be compressed in the first place.
         # reorder to column-by-column
@@ -365,7 +369,7 @@ def point_cloud_to_path(pc, fname):
 
 
 def point_cloud_to_buffer(pc, data_compression=None):
-    fileobj = sio.StringIO()
+    fileobj = StringIO()
     point_cloud_to_fileobj(pc, fileobj, data_compression)
     return fileobj.getvalue()
 
