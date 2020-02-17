@@ -17,9 +17,9 @@ import warnings
 import lzf
 
 try:
-    from StringIO import StringIO
+    from StringIO import StringIO, BytesIO
 except ImportError:
-    from io import StringIO
+    from io import BytesIO
 
 HAS_SENSOR_MSGS = True
 try:
@@ -311,7 +311,7 @@ def point_cloud_from_path(fname):
 
 
 def point_cloud_from_buffer(buf):
-    fileobj = StringIO(buf)
+    fileobj = BytesIO(buf)
     pc = point_cloud_from_fileobj(fileobj)
     fileobj.close()  # necessary?
     return pc
@@ -369,7 +369,7 @@ def point_cloud_to_path(pc, fname):
 
 
 def point_cloud_to_buffer(pc, data_compression=None):
-    fileobj = StringIO()
+    fileobj = BytesIO()
     point_cloud_to_fileobj(pc, fileobj, data_compression)
     return fileobj.getvalue()
 
