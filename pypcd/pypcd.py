@@ -539,7 +539,7 @@ def make_xyz_point_cloud(xyz, metadata=None):
     xyz = xyz.astype(np.float32)
     pc_data = xyz.view(np.dtype([('x', np.float32),
                                  ('y', np.float32),
-                                 ('z', np.float32)]))
+                                 ('z', np.float32)])).squeeze()
     # pc_data = np.rec.fromarrays([xyz[:,0], xyz[:,1], xyz[:,2]], dtype=dt)
     # data = np.rec.fromarrays([xyz.T], dtype=dt)
     pc = PointCloud(md, pc_data)
