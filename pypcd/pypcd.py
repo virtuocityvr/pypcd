@@ -224,7 +224,7 @@ def build_ascii_fmtstr(pc):
     fmtstr = []
     for t, cnt in zip(pc.type, pc.count):
         if t == 'F':
-            fmtstr.extend(['%.10f']*cnt)
+            fmtstr.extend(['%.10e']*cnt)
         elif t == 'I':
             fmtstr.extend(['%d']*cnt)
         elif t == 'U':
