@@ -6,8 +6,10 @@ def get_install_cmd(quiet=True):
     setup_py = os.path.join(root_path, 'setup.py')
     quiet_string = '-q' if quiet else ''
         
-    return 'cd {} && {} {} {} install --user'.format(
+    cmd= 'cd {} && {} {} {} install --user'.format(
         root_path, sys.executable, setup_py, quiet_string)
+    print(cmd)
+    return cmd
 
 
 pcd_string = """# .PCD v.7 - Point Cloud Data file format
