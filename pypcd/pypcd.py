@@ -331,7 +331,10 @@ def point_cloud_to_fileobj(pc, fileobj, data_compression=None):
     fileobj.write(header)
     if metadata['data'].lower() == 'ascii':
         fmtstr = build_ascii_fmtstr(pc)
-        np.savetxt(fileobj, pc.pc_data, fmt=fmtstr)
+        if pc.pc_data.size == 1:
+            np.savetxt(fileobj, pc.pc_data.reshape((1,)), fmt=fmtstr)
+        else:
+            np.savetxt(fileobj, pc.pc_data, fmt=fmtstr)
     elif metadata['data'].lower() == 'binary':
         fileobj.write(pc.pc_data.tostring())
     elif metadata['data'].lower() == 'binary_compressed':
@@ -603,7 +606,7 @@ def decode_rgb_from_pcl(rgb):
     r = np.asarray((rgb >> 16) & 255, dtype=np.uint8)
     g = np.asarray((rgb >> 8) & 255, dtype=np.uint8)
     b = np.asarray(rgb & 255, dtype=np.uint8)
-    rgb_arr = np.zeros((len(rgb), 3), dtype=np.uint8)
+    rgb_arr = np.zeros((rgb.size, 3), dtype=np.uint8)
     rgb_arr[:, 0] = r
     rgb_arr[:, 1] = g
     rgb_arr[:, 2] = b
