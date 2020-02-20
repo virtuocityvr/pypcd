@@ -9,8 +9,8 @@ with open('README.rst') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
-requirements = ['numpy', 
-                'python-lzf @ https://github.com/rubenvanparys/pypcd/releases/download/0.1.2/python_lzf-0.2.4-cp36-cp36m-linux_x86_64.whl']
+requirements = ['numpy',
+                'python-lzf @ https://github.com/rubenvanparys/pypcd/releases/download/0.1.3/python_lzf-0.2.4-cp36-cp36m-linux_x86_64.whl']
 
 setup_requirements = ['pytest-runner', ]
 
@@ -44,7 +44,7 @@ setup(
     test_suite='tests',
     tests_require=test_requirements,
     url='https://github.com/dimatura/pypcd',
-    version='0.1.1',
+    version='0.1.3',
     zip_safe=False,
     data_files=[('config', ['HISTORY.rst'])]
 )
