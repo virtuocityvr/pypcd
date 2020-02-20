@@ -9,7 +9,8 @@ with open('README.rst') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
-requirements = ['numpy', 'python-lzf']
+requirements = ['numpy', 
+                'python-lzf @ https://github.com/rubenvanparys/pypcd/releases/download/0.1.2/python_lzf-0.2.4-cp36-cp36m-linux_x86_64.whl']
 
 setup_requirements = ['pytest-runner', ]
 
