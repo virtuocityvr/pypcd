@@ -19,7 +19,7 @@ import lzf
 try:
     from StringIO import StringIO, BytesIO
 except ImportError:
-    from io import BytesIO
+    from io import BytesIO, StringIO
 
 HAS_SENSOR_MSGS = True
 try:
@@ -314,6 +314,12 @@ def point_cloud_from_buffer(buf):
     fileobj = BytesIO(buf)
     pc = point_cloud_from_fileobj(fileobj)
     fileobj.close()  # necessary?
+    return pc
+
+
+def point_cloud_from_string(string):
+    with StringIO(string) as fileobj:
+        pc = point_cloud_from_fileobj(fileobj)
     return pc
 
 
@@ -746,8 +752,16 @@ class PointCloud(object):
         return point_cloud_from_fileobj(fileobj)
 
     @staticmethod
+    def from_string(string):
+        return point_cloud_from_string(string)
+
+    @staticmethod
     def from_buffer(buf):
-        return point_cloud_from_buffer(buf)
+        try:
+            return point_cloud_from_buffer(buf)
+        except TypeError:
+            # The old method could handle strings. The new one should also be able to.
+            return PointCloud.from_string(buf)
 
     @staticmethod
     def from_array(arr):
