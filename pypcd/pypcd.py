@@ -337,7 +337,11 @@ def point_cloud_to_fileobj(pc, fileobj, data_compression=None):
     fileobj.write(header)
     if metadata['data'].lower() == 'ascii':
         fmtstr = build_ascii_fmtstr(pc)
-        np.savetxt(fileobj, pc.pc_data, fmt=fmtstr)
+        if pc.pc_data.size == 1:
+            np.savetxt(fileobj, pc.pc_data.reshape((1,)), fmt=fmtstr)
+        else:
+            np.savetxt(fileobj, pc.pc_data, fmt=fmtstr)
+
     elif metadata['data'].lower() == 'binary':
         fileobj.write(pc.pc_data.tostring())
     elif metadata['data'].lower() == 'binary_compressed':
@@ -471,7 +475,7 @@ def add_fields(pc, metadata, pc_data):
     if len(set(metadata['fields']).intersection(set(pc.fields))) > 0:
         raise Exception("Fields with that name exist.")
 
-    if pc.points != len(pc_data):
+    if pc.points != pc_data.size:
         raise Exception("Mismatch in number of points.")
 
     new_metadata = pc.get_metadata()
@@ -499,7 +503,7 @@ def add_fields(pc, metadata, pc_data):
     new_dtype = [(f, pc.pc_data.dtype[f])
                  for f in pc.pc_data.dtype.names] + dtype
 
-    new_data = np.empty(len(pc.pc_data), new_dtype)
+    new_data = np.empty(pc.pc_data.size, new_dtype)
     for n in pc.pc_data.dtype.names:
         new_data[n] = pc.pc_data[n]
     for n, n_tmp in zip(fieldnames, pc_data.dtype.names):
@@ -609,7 +613,7 @@ def decode_rgb_from_pcl(rgb):
     r = np.asarray((rgb >> 16) & 255, dtype=np.uint8)
     g = np.asarray((rgb >> 8) & 255, dtype=np.uint8)
     b = np.asarray(rgb & 255, dtype=np.uint8)
-    rgb_arr = np.zeros((len(rgb), 3), dtype=np.uint8)
+    rgb_arr = np.zeros((rgb.size, 3), dtype=np.uint8)
     rgb_arr[:, 0] = r
     rgb_arr[:, 1] = g
     rgb_arr[:, 2] = b
@@ -693,7 +697,7 @@ class PointCloud(object):
         # pdb.set_trace()
         md = self.get_metadata()
         assert(_metadata_is_consistent(md))
-        assert(len(self.pc_data) == self.points)
+        assert(self.pc_data.size == self.points)
         assert(self.width*self.height == self.points)
         assert(len(self.fields) == len(self.count))
         assert(len(self.fields) == len(self.type))
