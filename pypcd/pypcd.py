@@ -17,9 +17,9 @@ import warnings
 import lzf
 
 try:
-    from StringIO import StringIO
+    from StringIO import StringIO, BytesIO
 except ImportError:
-    from io import StringIO
+    from io import BytesIO, StringIO
 
 HAS_SENSOR_MSGS = True
 try:
@@ -224,7 +224,7 @@ def build_ascii_fmtstr(pc):
     fmtstr = []
     for t, cnt in zip(pc.type, pc.count):
         if t == 'F':
-            fmtstr.extend(['%.10f']*cnt)
+            fmtstr.extend(['%.10e']*cnt)
         elif t == 'I':
             fmtstr.extend(['%d']*cnt)
         elif t == 'U':
@@ -311,9 +311,15 @@ def point_cloud_from_path(fname):
 
 
 def point_cloud_from_buffer(buf):
-    fileobj = StringIO(buf)
+    fileobj = BytesIO(buf)
     pc = point_cloud_from_fileobj(fileobj)
     fileobj.close()  # necessary?
+    return pc
+
+
+def point_cloud_from_string(string):
+    with StringIO(string) as fileobj:
+        pc = point_cloud_from_fileobj(fileobj)
     return pc
 
 
@@ -369,7 +375,7 @@ def point_cloud_to_path(pc, fname):
 
 
 def point_cloud_to_buffer(pc, data_compression=None):
-    fileobj = StringIO()
+    fileobj = BytesIO()
     point_cloud_to_fileobj(pc, fileobj, data_compression)
     return fileobj.getvalue()
 
@@ -539,7 +545,7 @@ def make_xyz_point_cloud(xyz, metadata=None):
     xyz = xyz.astype(np.float32)
     pc_data = xyz.view(np.dtype([('x', np.float32),
                                  ('y', np.float32),
-                                 ('z', np.float32)]))
+                                 ('z', np.float32)])).squeeze()
     # pc_data = np.rec.fromarrays([xyz[:,0], xyz[:,1], xyz[:,2]], dtype=dt)
     # data = np.rec.fromarrays([xyz.T], dtype=dt)
     pc = PointCloud(md, pc_data)
@@ -746,8 +752,16 @@ class PointCloud(object):
         return point_cloud_from_fileobj(fileobj)
 
     @staticmethod
+    def from_string(string):
+        return point_cloud_from_string(string)
+
+    @staticmethod
     def from_buffer(buf):
-        return point_cloud_from_buffer(buf)
+        try:
+            return point_cloud_from_buffer(buf)
+        except TypeError:
+            # The old method could handle strings. The new one should also be able to.
+            return PointCloud.from_string(buf)
 
     @staticmethod
     def from_array(arr):

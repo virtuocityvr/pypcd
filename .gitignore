@@ -12,4 +12,5 @@ include
 pip-selfcheck.json
 .pytest_cache/
 .tox
+.ipynb_checkpoints/
 

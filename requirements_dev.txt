@@ -10,3 +10,4 @@ twine
 
 pytest==3.4.2
 pytest-runner==2.11.1
+attrs==19.1.0
