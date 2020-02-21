@@ -3,6 +3,7 @@
 pypcd.egg-info
 build
 .eggs/
+dist
 bin
 lib
 include
@@ -11,4 +12,5 @@ include
 pip-selfcheck.json
 .pytest_cache/
 .tox
+.ipynb_checkpoints/
 

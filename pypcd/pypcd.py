@@ -19,7 +19,7 @@ import lzf
 try:
     from StringIO import StringIO, BytesIO
 except ImportError:
-    from io import BytesIO
+    from io import BytesIO, StringIO
 
 HAS_SENSOR_MSGS = True
 try:
@@ -317,6 +317,12 @@ def point_cloud_from_buffer(buf):
     return pc
 
 
+def point_cloud_from_string(string):
+    with StringIO(string) as fileobj:
+        pc = point_cloud_from_fileobj(fileobj)
+    return pc
+
+
 def point_cloud_to_fileobj(pc, fileobj, data_compression=None):
     """ Write pointcloud as .pcd to fileobj.
     If data_compression is not None it overrides pc.data.
@@ -335,6 +341,7 @@ def point_cloud_to_fileobj(pc, fileobj, data_compression=None):
             np.savetxt(fileobj, pc.pc_data.reshape((1,)), fmt=fmtstr)
         else:
             np.savetxt(fileobj, pc.pc_data, fmt=fmtstr)
+
     elif metadata['data'].lower() == 'binary':
         fileobj.write(pc.pc_data.tostring())
     elif metadata['data'].lower() == 'binary_compressed':
@@ -749,8 +756,16 @@ class PointCloud(object):
         return point_cloud_from_fileobj(fileobj)
 
     @staticmethod
+    def from_string(string):
+        return point_cloud_from_string(string)
+
+    @staticmethod
     def from_buffer(buf):
-        return point_cloud_from_buffer(buf)
+        try:
+            return point_cloud_from_buffer(buf)
+        except TypeError:
+            # The old method could handle strings. The new one should also be able to.
+            return PointCloud.from_string(buf)
 
     @staticmethod
     def from_array(arr):
